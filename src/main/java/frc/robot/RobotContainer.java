@@ -21,7 +21,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Hold the A button to run the flywheel at 50% forward speed, release to stop
-    m_driverController.a().whileTrue(m_flywheel.runFlywheelCommand(0.5));
+    //m_driverController.a().whileTrue(m_flywheel.runFlywheelCommand(0.5));
 
     // --- Example Bindings (Uncomment to use) ---
 
@@ -34,9 +34,8 @@ public class RobotContainer {
     // Press the Y button to spin the flywheel for 2 seconds, then automatically stop
     // m_driverController.y().onTrue(m_flywheel.runFlywheelCommand(0.5).withTimeout(2.0));
 
-    // Use the right trigger axis as a variable speed control (default command)
-    // m_flywheel.setDefaultCommand(
-    //     m_flywheel.run(() -> m_flywheel.setSpeed(m_driverController.getRightTriggerAxis())));
+    // Use the right joystick Y axis as a variable speed control (default command)
+    m_flywheel.setDefaultCommand(m_flywheel.run(() -> m_flywheel.setSpeed(m_driverController.getRightY())));
   }
 
   public Command getAutonomousCommand() {
