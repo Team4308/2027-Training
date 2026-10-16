@@ -4,13 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.Ports;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlywheelSubsystem extends SubsystemBase {
-  private static final int MOTOR_CAN_ID = 1;
-  private final WPI_TalonSRX m_motor = new WPI_TalonSRX(MOTOR_CAN_ID);
+  private final WPI_VictorSPX m_motor = new WPI_VictorSPX(Ports.Flywheel.kFlywheelId);
 
   public FlywheelSubsystem() {
     m_motor.configFactoryDefault();
