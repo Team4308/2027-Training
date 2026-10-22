@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Ports;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlywheelSubsystem extends SubsystemBase {
@@ -28,15 +27,6 @@ public class FlywheelSubsystem extends SubsystemBase {
   /** Stops the flywheel motor. */
   public void stop() {
     m_motor.stopMotor();
-  }
-
-  /**
-   * Returns a command that runs the flywheel at the given speed and stops it when the command ends.
-   *
-   * @param speed Duty cycle speed from -1.0 to 1.0
-   */
-  public Command runFlywheelCommand(double speed) {
-    return startEnd(() -> setSpeed(speed), this::stop);
   }
 }
 

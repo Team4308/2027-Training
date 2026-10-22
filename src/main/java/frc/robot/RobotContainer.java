@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.SpinFlywheelCommand;
 import frc.robot.subsystems.FlywheelSubsystem;
 
 public class RobotContainer {
@@ -21,21 +22,18 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Hold the A button to run the flywheel at 50% forward speed, release to stop
-    //m_driverController.a().whileTrue(m_flywheel.runFlywheelCommand(0.5));
+    m_driverController.a().whileTrue(new SpinFlywheelCommand(m_flywheel, 0.5));
 
     // --- Example Bindings (Uncomment to use) ---
 
     // Hold the B button to run the flywheel in reverse at 25% speed
-    // m_driverController.b().whileTrue(m_flywheel.runFlywheelCommand(-0.25));
+    // m_driverController.b().whileTrue(new SpinFlywheelCommand(m_flywheel, -0.25));
 
     // Press the X button once to toggle the flywheel on (75% speed) and off
-    // m_driverController.x().toggleOnTrue(m_flywheel.runFlywheelCommand(0.75));
+    // m_driverController.x().toggleOnTrue(new SpinFlywheelCommand(m_flywheel, 0.75));
 
     // Press the Y button to spin the flywheel for 2 seconds, then automatically stop
-    // m_driverController.y().onTrue(m_flywheel.runFlywheelCommand(0.5).withTimeout(2.0));
-
-    // Use the right joystick Y axis as a variable speed control (default command)
-    m_flywheel.setDefaultCommand(m_flywheel.run(() -> m_flywheel.setSpeed(m_driverController.getRightY())));
+    // m_driverController.y().onTrue(new SpinFlywheelCommand(m_flywheel, 0.5).withTimeout(2.0));
   }
 
   public Command getAutonomousCommand() {
