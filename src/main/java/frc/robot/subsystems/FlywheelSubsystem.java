@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Ports;
+import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlywheelSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX m_motor = new WPI_VictorSPX(Ports.Flywheel.kFlywheelId);
+  private final WPI_VictorSPX m_motor = new WPI_VictorSPX(Constants.Flywheel.flywheelId);
 
   public FlywheelSubsystem() {
     m_motor.configFactoryDefault();
