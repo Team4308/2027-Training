@@ -22,7 +22,7 @@ public final class Constants {
 
   public static final class Turret {
     public static final int TURRET_CAN_ID = 0;
-    public static final double TURRET_GEAR_RATIO = 0;
+    public static final double TURRET_GEAR_RATIO = 1; // TODO: change to the actual gear ratio
 
     // TODO: Add turret soft limits (degrees), velocity cap, and arrival tolerance (degrees)
   }
@@ -30,8 +30,9 @@ public final class Constants {
   public static final class Flywheel {
     public static final int FLYWHEEL_CAN_ID = 0;
     public static final double MAX_FLYWHEEL_RPM = 0;
+    public static final double FLYWHEEL_GEAR_RATIO = 1; // TODO: change to the actual gear ratio
 
-    // TODO: Add FLYWHEEL_GEAR_RATIO, arrival tolerance (percent), and kS/kP/kI/kD gains
+    // TODO: Add arrival tolerance (percent) and kS/kP/kI/kD gains
   }
 
   public static final class Controls {
