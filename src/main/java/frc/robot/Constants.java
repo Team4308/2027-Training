@@ -5,36 +5,62 @@ package frc.robot;
  *
  * <p>Naming convention: constants are {@code public static final} and written in
  * UPPER_SNAKE_CASE. Include units in the name when it isn't obvious (e.g. _DEG, _RPM).
- *
- * <p>The values below are placeholders (0) — replace them with the real values from the
- * project guidelines.
  */
 public final class Constants {
   private Constants() {}
 
   public static final class Intake {
-    // Example naming convention:
-    public static final int INTAKE_CAN_ID = 0;
+    public static final int INTAKE_CAN_ID = 1;
     public static final boolean INTAKE_INVERTED = false;
 
-    // TODO: Add intake max/min percent output clamps
+    // Percent output clamps (-1.0 to 1.0)
+    public static final double INTAKE_MAX_PERCENT = 0.8;
+    public static final double INTAKE_MIN_PERCENT = -0.8;
   }
 
   public static final class Turret {
-    public static final int TURRET_CAN_ID = 0;
-    public static final double TURRET_GEAR_RATIO = 0;
+    public static final int TURRET_CAN_ID = 2;
 
-    // TODO: Add turret soft limits (degrees), velocity cap, and arrival tolerance (degrees)
+    /** Motor rotations per one full turret rotation. */
+    public static final double TURRET_GEAR_RATIO = 10.0;
+
+    // Soft limits (degrees)
+    public static final double TURRET_MIN_ANGLE_DEG = -120.0;
+    public static final double TURRET_MAX_ANGLE_DEG = 120.0;
+
+    /** Closed-loop velocity cap (motor rotations per second) so the turret pans slowly. */
+    public static final double TURRET_MAX_VELOCITY_RPS = 2.0;
+    public static final double TURRET_ACCELERATION_RPS2 = 4.0;
+
+    /** Arrival tolerance: +/- degrees. */
+    public static final double TURRET_TOLERANCE_DEG = 2.0;
+
+    // Position PID gains (Slot 0)
+    public static final double TURRET_KP = 4.0;
+    public static final double TURRET_KI = 0.0;
+    public static final double TURRET_KD = 0.0;
   }
 
   public static final class Flywheel {
-    public static final int FLYWHEEL_CAN_ID = 0;
-    public static final double MAX_FLYWHEEL_RPM = 0;
+    public static final int FLYWHEEL_CAN_ID = 3;
 
-    // TODO: Add FLYWHEEL_GEAR_RATIO, arrival tolerance (percent), and kS/kP/kI/kD gains
+    /** Motor rotations per one flywheel rotation. */
+    public static final double FLYWHEEL_GEAR_RATIO = 1.0;
+    public static final double MAX_FLYWHEEL_RPM = 6000.0;
+
+    /** Arrival tolerance as a fraction of the target (0.03 = 3%). */
+    public static final double FLYWHEEL_TOLERANCE_PERCENT = 0.03;
+
+    // Velocity gains (Slot 0)
+    public static final double FLYWHEEL_KS = 0.1;
+    public static final double FLYWHEEL_KV = 0.12;
+    public static final double FLYWHEEL_KP = 0.2;
+    public static final double FLYWHEEL_KI = 0.0;
+    public static final double FLYWHEEL_KD = 0.0;
   }
 
   public static final class Controls {
-    // TODO: Add controller port and JOYSTICK_DEADBAND
+    public static final int DRIVER_CONTROLLER_PORT = 0;
+    public static final double JOYSTICK_DEADBAND = 0.1;
   }
 }
