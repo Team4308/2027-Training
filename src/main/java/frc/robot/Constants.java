@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
+
 /**
  * Robot-wide constants. Group related values into nested static classes.
  *
@@ -18,6 +20,12 @@ public final class Constants {
     public static final boolean INTAKE_INVERTED = false;
 
     // TODO: Add intake max/min percent output clamps
+    private final double MIN_OUTPUT;
+    private final double MAX_OUTPUT;
+
+    public void runIntake(double demand) {
+        double clampedDemand = MathUtil.clamp(demand, MIN_OUTPUT, MAX_OUTPUT);
+        
   }
 
   public static final class Turret {
