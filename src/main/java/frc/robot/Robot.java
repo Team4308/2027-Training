@@ -19,7 +19,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    // 1. Run the scheduler (calls every subsystem's periodic())
     CommandScheduler.getInstance().run();
+    // 2. Evaluate the global state machine
+    m_robotContainer.updateStateMachine();
   }
 
   @Override

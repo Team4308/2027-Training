@@ -6,34 +6,39 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.SpinFlywheelCommand;
-import frc.robot.subsystems.FlywheelSubsystem;
 
+/**
+ * Central hub: owns the subsystems, the controller, and the global state machine.
+ *
+ * <p>Resources:
+ * <ul>
+ *   <li>Structuring a project: https://docs.wpilib.org/en/stable/docs/software/commandbased/structuring-command-based-project.html
+ *   <li>Binding triggers: https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+ *   <li>CommandXboxController: https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/button/CommandXboxController.html
+ *   <li>Commands.runOnce: https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Commands.html
+ *   <li>Java switch: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html
+ * </ul>
+ */
 public class RobotContainer {
-  private static final int DRIVER_CONTROLLER_PORT = 0;
-
-  private final FlywheelSubsystem m_flywheel = new FlywheelSubsystem();
-  private final CommandXboxController m_driverController = new CommandXboxController(DRIVER_CONTROLLER_PORT);
+  // TODO: Create the global State variable, initialized to State.IDLE
+  // TODO: Create the Intake, Turret, and Flywheel subsystems
+  // TODO: Create the CommandXboxController
 
   public RobotContainer() {
     configureBindings();
   }
 
   private void configureBindings() {
-    // Hold the A button to run the flywheel at 50% forward speed, release to stop
-    m_driverController.a().whileTrue(new SpinFlywheelCommand(m_flywheel, 0.5));
+    // TODO: Map buttons to states, e.g.
+    //   controller.x().onTrue(Commands.runOnce(() -> currentState = State.IDLE));
+    // X = IDLE, A = INTAKING, Left Bumper = AIMING, Y = REV_FLYWHEEL, Right Bumper = INTAKE_AND_SHOOT
+  }
 
-    // --- Example Bindings (Uncomment to use) ---
-
-    // Hold the B button to run the flywheel in reverse at 25% speed
-    // m_driverController.b().whileTrue(new SpinFlywheelCommand(m_flywheel, -0.25));
-
-    // Press the X button once to toggle the flywheel on (75% speed) and off
-    // m_driverController.x().toggleOnTrue(new SpinFlywheelCommand(m_flywheel, 0.75));
-
-    // Press the Y button to spin the flywheel for 2 seconds, then automatically stop
-    // m_driverController.y().onTrue(new SpinFlywheelCommand(m_flywheel, 0.5).withTimeout(2.0));
+  /** Called every loop from Robot.robotPeriodic(), after the CommandScheduler runs. */
+  public void updateStateMachine() {
+    // TODO: Broadcast the current state to SmartDashboard (test this before any motor logic!)
+    // TODO: switch (currentState) { ... } — handle every State, call subsystem setters,
+    //       and perform auto-transitions (REV_FLYWHEEL -> READY_TO_SHOOT)
   }
 
   public Command getAutonomousCommand() {
