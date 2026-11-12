@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /**
  * Intake subsystem — WPI_TalonSRX (Phoenix 5), open-loop percent output.
@@ -16,17 +18,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class Intake extends SubsystemBase {
   // TODO: Create the WPI_TalonSRX motor using the CAN ID from Constants
+  private double targetPercentOutput = 0.03;
   // TODO: Create a private target percent output variable
 
   public Intake() {
     // TODO: Apply inversion from Constants
     // TODO: Print an initialization message with System.out
+    System.out.println("Intake Initialized.");
   }
 
   // TODO: Add a public setter that only updates the private target variable
+    public void setTargetPercentOut(double Percent) {
+    targetPercentOutput = Percent;
+  }
 
   @Override
   public void periodic() {
+    targetPercentOutput = MathUtil.clamp(targetPercentOutput, Constants.Intake.MIN_OUTPUT, Constants.Intake.MAX_OUTPUT);
     // TODO: Clamp the target to the min/max percent output from Constants
     // TODO: Send it to the motor using ControlMode.PercentOutput
     // TODO: Broadcast the commanded percentage to SmartDashboard

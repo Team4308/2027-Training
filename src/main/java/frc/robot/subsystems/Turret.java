@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
@@ -26,15 +27,23 @@ public class Turret extends SubsystemBase {
   // PROVIDED (used by the simulation code at the bottom of this file) — do not rename.
   private final TalonFX m_motor = new TalonFX(Constants.Turret.TURRET_CAN_ID);
 
+  private double targetAngle = 0.03;
   // TODO: Create a private target angle variable (degrees)
 
   public Turret() {
     // TODO: Configure PID gains and a low velocity cap (e.g. MotionMagicCruiseVelocity)
     // TODO: Print an initialization message with System.out
+    System.out.println("Turret Initialized.");
   }
 
   // TODO: Add a public setter for the target angle (degrees)
+  public void setTargetAngle(double angle) {
+    targetAngle = angle;
+  }
   // TODO: Add a public getter for the current angle (degrees) — needed for tolerance checks
+  public double getTargetAngle() {
+    return targetAngle;
+  }
 
   @Override
   public void periodic() {

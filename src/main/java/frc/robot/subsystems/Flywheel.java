@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
@@ -25,16 +27,29 @@ import frc.robot.Constants;
 public class Flywheel extends SubsystemBase {
   // PROVIDED (used by the simulation code at the bottom of this file) — do not rename.
   private final TalonFX m_motor = new TalonFX(Constants.Flywheel.FLYWHEEL_CAN_ID);
-
+  private double targetRPM = 0; // private target RPM variable
   // TODO: Create a private target RPM variable
 
   public Flywheel() {
     // TODO: Configure kS/kP/kI/kD gains from Constants
+    var configs = new TalonFXConfiguration();
+    configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
+    configs.Slot0.kI = 0; // no output for integrated error
+    configs.Slot0.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
+
     // TODO: Print an initialization message with System.out
+    System.out.println("Flywheel Initialized.");
   }
 
   // TODO: Add a public setter for the target RPM
+  public void setTargetRPM(double RPM) {
+    targetRPM = RPM;
+  }
   // TODO: Add a public getter for the current RPM — needed for the 3% arrival check
+    public double getTargetRPM(){
+        return targetRPM;
+    }
+
 
   @Override
   public void periodic() {
