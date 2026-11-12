@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -30,7 +31,9 @@ public class Flywheel extends SubsystemBase {
 
   public Flywheel() {
     // TODO: Configure kS/kP/kI/kD gains from Constants
+
     // TODO: Print an initialization message with System.out
+    System.out.println("Flywheel Initialize");
   }
 
   // TODO: Add a public setter for the target RPM
