@@ -35,6 +35,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     targetPercentOutput = MathUtil.clamp(targetPercentOutput, Constants.Intake.MIN_OUTPUT, Constants.Intake.MAX_OUTPUT);
+    SmartDashboard.getNumber("Intake Percent Output", targetPercentOutput);
     // TODO: Clamp the target to the min/max percent output from Constants
     // TODO: Send it to the motor using ControlMode.PercentOutput
     // TODO: Broadcast the commanded percentage to SmartDashboard
