@@ -30,13 +30,13 @@ public final class Constants {
     public static final int FLYWHEEL_CAN_ID = 0;
     public static final double MAX_FLYWHEEL_RPM = 0;
     public static final double FLYWHEEL_GEAR_RATIO = 1; // TODO: change to the actual gear ratio
-
     // TODO: Add arrival tolerance (percent) and kS/kP/kI/kD gains
+  }
 
   public static final class Controls {
     // TODO: Add controller port and JOYSTICK_DEADBAND
     public static final double JOYSTICK_DEADBAND = 0.1;
+    public static final int DRIVER_CONTROLLER_PORT = 0;
   }
-}
 
 }

@@ -4,9 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 /**
  * Central hub: owns the subsystems, the controller, and the global state machine.
  *
@@ -20,6 +21,16 @@ import edu.wpi.first.wpilibj2.command.Commands;
  * </ul>
  */
 public class RobotContainer {
+  public enum State {
+    IDLE,
+    INTAKING,
+    AIMING,
+    REV_FLYWHEEL,
+    INTAKE_AND_SHOOT,
+  }
+  private State m_currentState = State.IDLE;
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(Constants.Controls.DRIVER_CONTROLLER_PORT);
   // TODO: Create the global State variable, initialized to State.IDLE
   // TODO: Create the Intake, Turret, and Flywheel subsystems
   // TODO: Create the CommandXboxController
@@ -30,12 +41,14 @@ public class RobotContainer {
 
   private void configureBindings() {
     // TODO: Map buttons to states, e.g.
-    //   controller.x().onTrue(Commands.runOnce(() -> currentState = State.IDLE));
+    //controller.x().onTrue(Commands.runOnce(() -> currentState = State.IDLE));
     // X = IDLE, A = INTAKING, Left Bumper = AIMING, Y = REV_FLYWHEEL, Right Bumper = INTAKE_AND_SHOOT
+    m_driverController.x().onTrue(Commands.runOnce(() -> m_currentState = State.IDLE));
   }
 
   /** Called every loop from Robot.robotPeriodic(), after the CommandScheduler runs. */
   public void updateStateMachine() {
+      SmartDashboard.putNumber("Current state", m_currentState == State.INTAKING ? 1.0 : 0.0);
     // TODO: Broadcast the current state to SmartDashboard (test this before any motor logic!)
     // TODO: switch (currentState) { ... } — handle every State, call subsystem setters,
     //       and perform auto-transitions (REV_FLYWHEEL -> READY_TO_SHOOT)
