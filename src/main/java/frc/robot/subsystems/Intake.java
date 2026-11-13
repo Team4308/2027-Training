@@ -20,7 +20,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
  * </ul>
  */
 public class Intake extends SubsystemBase {
-  // TODO: Create the WPI_TalonSRX motor using the CAN ID from Constants
   private final WPI_TalonSRX m_motor = new WPI_TalonSRX(Constants.Intake.INTAKE_CAN_ID);
   private double targetPercentOutput = 0.03;
   // TODO: Create a private target percent output variable

@@ -31,7 +31,6 @@ public class RobotContainer {
   private State m_currentState = State.IDLE;
   private final CommandXboxController m_driverController =
       new CommandXboxController(Constants.Controls.DRIVER_CONTROLLER_PORT);
-  // TODO: Create the global State variable, initialized to State.IDLE
   // TODO: Create the Intake, Turret, and Flywheel subsystems
   // TODO: Create the CommandXboxController
 
@@ -52,6 +51,27 @@ public class RobotContainer {
     // TODO: Broadcast the current state to SmartDashboard (test this before any motor logic!)
     // TODO: switch (currentState) { ... } — handle every State, call subsystem setters,
     //       and perform auto-transitions (REV_FLYWHEEL -> READY_TO_SHOOT)
+  
+// There is a similar part in State.java
+    switch (m_currentState) {
+      case IDLE:
+        m_currentState = State.IDLE;
+        break;
+      case INTAKING:
+        m_currentState = State.INTAKING;
+        break;
+      case AIMING:
+        m_currentState = State.AIMING;
+        break;
+      case REV_FLYWHEEL:
+        m_currentState = State.REV_FLYWHEEL;
+        break;
+      case INTAKE_AND_SHOOT:
+        m_currentState = State.INTAKE_AND_SHOOT;
+        break;
+      default:
+        break;
+    }
   }
 
   public Command getAutonomousCommand() {
