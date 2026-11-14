@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
   // TODO: Add a public setter that only updates the private target variable
   @Override
   public void periodic() {
-    MathUtil.clamp(intakeOutput, Constants.Intake.intakeMin, Constants.Intake.intakeMax);
+    intakeOutput = MathUtil.clamp(intakeOutput, Constants.Intake.intakeMin, Constants.Intake.intakeMax);
     intakeMotor.set(ControlMode.PercentOutput, intakeOutput);
     SmartDashboard.putNumber("Intake Output", intakeOutput);
   }

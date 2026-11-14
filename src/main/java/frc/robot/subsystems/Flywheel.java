@@ -3,11 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -24,26 +27,35 @@ import frc.robot.Constants;
  * </ul>
  */
 public class Flywheel extends SubsystemBase {
-  // PROVIDED (used by the simulation code at the bottom of this file) — do not rename.
   private final TalonFX m_motor = new TalonFX(Constants.Flywheel.FLYWHEEL_CAN_ID);
 
-  // TODO: Create a private target RPM variable
+  private double targetRPM;
+  private double rps;
+  private double currentRPM;
 
   public Flywheel() {
-    // TODO: Configure kS/kP/kI/kD gains from Constants
-
-    // TODO: Print an initialization message with System.out
-    System.out.println("Flywheel Initialize");
+    var configs = new TalonFXConfiguration();
+    configs.Slot0.kP = Constants.Flywheel.kP; 
+    configs.Slot0.kI = Constants.Flywheel.kI; 
+    configs.Slot0.kD = Constants.Flywheel.kD; 
+    configs.Slot0.kS = Constants.Flywheel.kS;
+    m_motor.getConfigurator().apply(configs);
+    System.out.println("Flywheel Initialized");
   }
 
-  // TODO: Add a public setter for the target RPM
-  // TODO: Add a public getter for the current RPM — needed for the 3% arrival check
-
+  public void setTargetRPM(double setRPM){
+    targetRPM = setRPM;
+  }
+  public double getCurrentRPM(){
+    return m_motor.get();
+  }
   @Override
   public void periodic() {
-    // TODO: Clamp the target RPM against MAX_FLYWHEEL_RPM
-    // TODO: Convert RPM -> rotations per second using FLYWHEEL_GEAR_RATIO and send the request
-    // TODO: Broadcast Target RPM and Current RPM to SmartDashboard
+    targetRPM = MathUtil.clamp(targetRPM, Constants.Flywheel.MIN_FLYWHEEL_RPM, Constants.Flywheel.MAX_FLYWHEEL_RPM);
+    rps = targetRPM * Constants.Flywheel.FLYWHEEL_GEAR_RATIO * 60;
+    SmartDashboard.putNumber("Target RPM", targetRPM);
+    SmartDashboard.putNumber("Current RPM", currentRPM);
+
   }
 
   // ---------------------------------------------------------------------------
