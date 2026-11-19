@@ -33,6 +33,10 @@ public final class Constants {
     public static final int cruiseVelocity = 80;
     public static final int magicAcceleration = 160;
     public static final int magicJerk = 1600; 
+    public static final double turretkP = 2.4;
+    public static final double turretkI = 0;
+    public static final double turretkD = 0.1;
+    public static final double turretkS = 0.5;
   }
 
   public static final class Flywheel {
@@ -40,10 +44,10 @@ public final class Constants {
     public static final double MIN_FLYWHEEL_RPM = 2;
     public static final double MAX_FLYWHEEL_RPM = 10;
     public static final double FLYWHEEL_GEAR_RATIO = 1; // TODO: change to the actual gear ratio
-    public static final double kP = 2.4;
-    public static final double kI = 0;
-    public static final double kD = 0.1;
-    public static final double kS = 0.5;
+    public static final double flywheelkP = 2.4;
+    public static final double flywheelkI = 0;
+    public static final double flywheelkD = 0.1;
+    public static final double flywheelkS = 0.5;
     // TODO: Add arrival tolerance (percent) and kS/kP/kI/kD gains
     public static final double tolerance = 0.03;
   }
@@ -51,6 +55,5 @@ public final class Constants {
   public static final class Controls {
     // TODO: Add controller port and JOYSTICK_DEADBAND
     public static final double JOYSTICK_DEADBAND = 0.1;
-
   }
 }

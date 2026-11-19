@@ -1,16 +1,21 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import com.ctre.phoenix6.swerve.utility.LinearPath.State;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import edu.wpi.first.math.MathUtil;
 /**
  * Turret subsystem — TalonFX (Phoenix 6), closed-loop position control. Boot position = 0 deg.
  *
@@ -27,25 +32,42 @@ public class Turret extends SubsystemBase {
   // PROVIDED (used by the simulation code at the bottom of this file) — do not rename.
   private final TalonFX m_motor = new TalonFX(Constants.Turret.TURRET_CAN_ID);
 
-  private static double targetAngle;
+  private double targetAngle;
+  private StatusSignal<Angle> currentAngle;
+  private double rotations;
 
   public Turret() {
-    // TODO: Configure PID gains and a low velocity cap (e.g. MotionMagicCruiseVelocity)
-    // TODO: Print an initialization message with System.out
-    var turretConfigs = new TalonFXConfiguration();
-    System.out.println(turretConfigs);
-    System.out.println("Turret Initilazied");
+    TalonFXConfiguration configs = new TalonFXConfiguration();
+
+    var slot0Configs = configs.Slot0;
+    configs.Slot0.kP = Constants.Flywheel.flywheelkP; 
+    configs.Slot0.kI = Constants.Flywheel.flywheelkI; 
+    configs.Slot0.kD = Constants.Flywheel.flywheelkD; 
+    configs.Slot0.kS = Constants.Flywheel.flywheelkS;
+
+    var motionMagicConfigs = configs.MotionMagic;
+    motionMagicConfigs.MotionMagicCruiseVelocity = Constants.Turret.cruiseVelocity; 
+    motionMagicConfigs.MotionMagicAcceleration = Constants.Turret.magicAcceleration; 
+    motionMagicConfigs.MotionMagicJerk = Constants.Turret.magicJerk;
+    m_motor.getConfigurator().apply(configs);
+
+    System.out.println(configs);
+    System.out.println("Turret Initiliazed");
   }
 
-  // TODO: Add a public setter for the target angle (degrees)
-  
-  // TODO: Add a public getter for the current angle (degrees) — needed for tolerance checks
-
+  public void setTargetAngle(double setAngle){
+    targetAngle = setAngle;
+  }
+  public double getCurrentAngle(){
+    return m_motor.getPosition().getValueAsDouble();
+  }
+  private frc.robot.RobotContainer.State currentState;
   @Override
   public void periodic() {
-    // TODO: Clamp the target angle to the soft limits from Constants
-    // TODO: Convert degrees -> motor rotations using TURRET_GEAR_RATIO and send the request
-    // TODO: Broadcast Target Angle and Current Angle (degrees) to SmartDashboard
+    targetAngle = MathUtil.clamp(targetAngle, Constants.Turret.softLowLimit, Constants.Turret.softHighLimit);
+    rotations = targetAngle/360.0 * Constants.Turret.TURRET_GEAR_RATIO;
+    SmartDashboard.putNumber("Current Angle", currentAngle.getValueAsDouble());
+    SmartDashboard.putNumber("Target Angle", targetAngle);
   }
 
   // ---------------------------------------------------------------------------

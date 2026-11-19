@@ -24,18 +24,16 @@ import frc.robot.Constants;
  */
 public class Intake extends SubsystemBase {
   public static int intakeOutput;
-  WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.Intake.INTAKE_CAN_ID);
+  public WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.Intake.INTAKE_CAN_ID);
 
   
   public Intake() {
-    // TODO: Apply inversion from Constants
-    // TODO: Print an initialization message with System.out
     var intakeConfigs = new TalonSRXConfiguration();
     System.out.println(intakeConfigs);
     System.out.println("Initialised. The intake inversion is " + Constants.Intake.INTAKE_INVERTED + ".");
     intakeMotor.setInverted(Constants.Intake.INTAKE_INVERTED);
   }
-  // TODO: Add a public setter that only updates the private target variable
+  // TODO: Add a public setter that only updates the private target variable  
   @Override
   public void periodic() {
     intakeOutput = MathUtil.clamp(intakeOutput, Constants.Intake.intakeMin, Constants.Intake.intakeMax);

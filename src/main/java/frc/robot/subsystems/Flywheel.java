@@ -29,21 +29,20 @@ import frc.robot.Constants;
 public class Flywheel extends SubsystemBase {
   private final TalonFX m_motor = new TalonFX(Constants.Flywheel.FLYWHEEL_CAN_ID);
 
-  private double targetRPM;
+  private static double targetRPM;
   private double rps;
   private double currentRPM;
-
   public Flywheel() {
     var configs = new TalonFXConfiguration();
-    configs.Slot0.kP = Constants.Flywheel.kP; 
-    configs.Slot0.kI = Constants.Flywheel.kI; 
-    configs.Slot0.kD = Constants.Flywheel.kD; 
-    configs.Slot0.kS = Constants.Flywheel.kS;
+    configs.Slot0.kP = Constants.Flywheel.flywheelkP; 
+    configs.Slot0.kI = Constants.Flywheel.flywheelkI; 
+    configs.Slot0.kD = Constants.Flywheel.flywheelkD; 
+    configs.Slot0.kS = Constants.Flywheel.flywheelkS;
     m_motor.getConfigurator().apply(configs);
     System.out.println("Flywheel Initialized");
   }
 
-  public void setTargetRPM(double setRPM){
+  public static void setTargetRPM(double setRPM){
     targetRPM = setRPM;
   }
   public double getCurrentRPM(){
@@ -54,8 +53,7 @@ public class Flywheel extends SubsystemBase {
     targetRPM = MathUtil.clamp(targetRPM, Constants.Flywheel.MIN_FLYWHEEL_RPM, Constants.Flywheel.MAX_FLYWHEEL_RPM);
     rps = targetRPM * Constants.Flywheel.FLYWHEEL_GEAR_RATIO * 60;
     SmartDashboard.putNumber("Target RPM", targetRPM);
-    SmartDashboard.putNumber("Current RPM", currentRPM);
-
+    SmartDashboard.putNumber("Current RPM", getCurrentRPM());
   }
 
   // ---------------------------------------------------------------------------
