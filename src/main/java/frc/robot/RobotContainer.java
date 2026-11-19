@@ -39,10 +39,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // TODO: Map buttons to states, e.g.
-    //controller.x().onTrue(Commands.runOnce(() -> currentState = State.IDLE));
-    // X = IDLE, A = INTAKING, Left Bumper = AIMING, Y = REV_FLYWHEEL, Right Bumper = INTAKE_AND_SHOOT
     m_driverController.x().onTrue(Commands.runOnce(() -> m_currentState = State.IDLE));
+    m_driverController.a().onTrue(Commands.runOnce(() -> m_currentState = State.INTAKING));
+    m_driverController.leftBumper().onTrue(Commands.runOnce(() -> m_currentState = State.AIMING));
+    m_driverController.y().onTrue(Commands.runOnce(() -> m_currentState = State.REV_FLYWHEEL));
+    m_driverController.rightBumper().onTrue(Commands.runOnce(() -> m_currentState = State.INTAKE_AND_SHOOT));
   }
 
   /** Called every loop from Robot.robotPeriodic(), after the CommandScheduler runs. */

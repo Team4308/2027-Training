@@ -22,17 +22,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class Intake extends SubsystemBase {
   private final WPI_TalonSRX m_motor = new WPI_TalonSRX(Constants.Intake.INTAKE_CAN_ID);
   private double targetPercentOutput = 0.03;
-  // TODO: Create a private target percent output variable
 
   public Intake() {
     // TODO: Apply inversion from Constants
-    // TODO: Print an initialization message with System.out
     System.out.println("Intake Initialized.");
     m_motor.configFactoryDefault();
     m_motor.setInverted(Constants.Intake.INTAKE_INVERTED);
   }
 
-  // TODO: Add a public setter that only updates the private target variable
     public void setTargetPercentOut(double Percent) {
     targetPercentOutput = Percent;
   }
@@ -42,8 +39,5 @@ public class Intake extends SubsystemBase {
     targetPercentOutput = MathUtil.clamp(targetPercentOutput, Constants.Intake.MIN_OUTPUT, Constants.Intake.MAX_OUTPUT);
       m_motor.set(ControlMode.PercentOutput, targetPercentOutput);
       SmartDashboard.putNumber("Target Intake Output", targetPercentOutput);
-    // TODO: Clamp the target to the min/max percent output from Constants
-    // TODO: Send it to the motor using ControlMode.PercentOutput
-    // TODO: Broadcast the commanded percentage to SmartDashboard
   }
 }

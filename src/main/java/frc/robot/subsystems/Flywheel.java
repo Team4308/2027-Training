@@ -31,17 +31,14 @@ public class Flywheel extends SubsystemBase {
   // TODO: Create a private target RPM variable
 
   public Flywheel() {
-    // TODO: Configure kS/kP/kI/kD gains from Constants
     var configs = new TalonFXConfiguration();
     configs.Slot0.kP = 2.4; // An error of 1 rotation results in 2.4 V output
     configs.Slot0.kI = 0; // no output for integrated error
     configs.Slot0.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
 
-    // TODO: Print an initialization message with System.out
     System.out.println("Flywheel Initialized.");
   }
 
-  // TODO: Add a public setter for the target RPM
   public void setTargetRPM(double RPM) {
     targetRPM = RPM;
   }

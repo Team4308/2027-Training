@@ -19,7 +19,6 @@ public final class Constants {
     public static final int TURRET_CAN_ID = 0;
     public static final double TURRET_GEAR_RATIO = 1; // TODO: change to the actual gear ratio
 
-    // TODO: Add turret soft limits (degrees), velocity cap, and arrival tolerance (degrees)
     public static final double TURRET_SOFT_LIMIT_FORWARD = 120;
     public static final double TURRET_SOFT_LIMIT_REVERSE = -120;
     public static final double TURRET_VELOCITY_CAP = 0;

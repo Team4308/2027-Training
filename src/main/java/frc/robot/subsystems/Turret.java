@@ -28,7 +28,6 @@ public class Turret extends SubsystemBase {
   private final TalonFX m_motor = new TalonFX(Constants.Turret.TURRET_CAN_ID);
 
   private double targetAngle = 0.03;
-  // TODO: Create a private target angle variable (degrees)
 
   public Turret() {
     // TODO: Configure PID gains and a low velocity cap (e.g. MotionMagicCruiseVelocity)
@@ -36,11 +35,9 @@ public class Turret extends SubsystemBase {
     System.out.println("Turret Initialized.");
   }
 
-  // TODO: Add a public setter for the target angle (degrees)
   public void setTargetAngle(double angle) {
     targetAngle = angle;
   }
-  // TODO: Add a public getter for the current angle (degrees) — needed for tolerance checks
   public double getTargetAngle() {
     return targetAngle;
   }
