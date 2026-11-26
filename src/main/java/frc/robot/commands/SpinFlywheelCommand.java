@@ -16,7 +16,6 @@ public class SpinFlywheelCommand extends Command {
 
   @Override
   public void initialize() {
-    // 1. Setup / Actuation: Command the motor setpoint when the command begins
     flywheel.setSpeed(speed);
   }
 

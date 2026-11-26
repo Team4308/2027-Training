@@ -1,57 +1,102 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
+import java.io.File;
+
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.SpinFlywheelCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import frc.robot.commands.SpinFlywheelCommand;
 import frc.robot.commands.SetIntakeTargetSpeedCommand;
+
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class RobotContainer {
-  private static final int DRIVER_CONTROLLER_PORT = 0;
 
-  private final FlywheelSubsystem m_flywheel = new FlywheelSubsystem();
-  private final IntakeSubsystem m_intake = new IntakeSubsystem();
-  private final CommandXboxController m_driverController = new CommandXboxController(DRIVER_CONTROLLER_PORT);
+    private static final int DRIVER_CONTROLLER_PORT = 0;
+    private final SendableChooser<Command> autoChooser;
+    
+    private final FlywheelSubsystem m_flywheel =
+        new FlywheelSubsystem();
 
-  public RobotContainer() {
-    configureBindings();
-  }
+    private final IntakeSubsystem m_intake =
+        new IntakeSubsystem();
 
-  private void configureBindings() {
-    // Hold the A button to run the flywheel at 50% forward speed, release to stop
-    m_driverController.a().whileTrue(new SpinFlywheelCommand(m_flywheel, 0.5));
+    private final SwerveSubsystem swerve =
+        new SwerveSubsystem(
+            new File(Filesystem.getDeployDirectory(), "swerve")
+        );
 
-    // Intake: idle at 0.5 by default
-    m_intake.setDefaultCommand(new SetIntakeTargetSpeedCommand(m_intake, Constants.Intake.idleSpeed));
+    private final CommandXboxController m_driverController =
+        new CommandXboxController(DRIVER_CONTROLLER_PORT);
+        
 
-    // Intake: while the left joystick is moved, drive with its Y axis (up = positive)
-    new Trigger(() -> Math.abs(m_driverController.getLeftY()) > Constants.Intake.joystickDeadband)
-        .whileTrue(new SetIntakeTargetSpeedCommand(m_intake, () -> -m_driverController.getLeftY()));
+    public RobotContainer() {
 
-    // Optional extra: startEnd (hold B = full reverse, release = 0) and InstantCommand (X = 0.25)
-    m_driverController.b().whileTrue(m_intake.setSpeedStartEnd(-0.9));
-    m_driverController.x().onTrue(m_intake.setSpeedInstant(0.25));
+        NamedCommands.registerCommand("SpinFlywheel", new SpinFlywheelCommand(m_flywheel, 0.5));
+        configureBindings();
 
-    // --- Example Bindings (Uncomment to use) ---
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    // Hold the B button to run the flywheel in reverse at 25% speed
-    // m_driverController.b().whileTrue(new SpinFlywheelCommand(m_flywheel, -0.25));
+        swerve.setDefaultCommand(
+            swerve.driveCommand(
+                () -> -m_driverController.getLeftY(),
+                () -> -m_driverController.getLeftX(),
+                () -> -m_driverController.getRightX()
+            )
+        );
 
-    // Press the X button once to toggle the flywheel on (75% speed) and off
-    // m_driverController.x().toggleOnTrue(new SpinFlywheelCommand(m_flywheel, 0.75));
+        m_driverController.start().onTrue(
+            Commands.runOnce(() -> swerve.zeroGyro())
+        );
+        
+    }
 
-    // Press the Y button to spin the flywheel for 2 seconds, then automatically stop
-    // m_driverController.y().onTrue(new SpinFlywheelCommand(m_flywheel, 0.5).withTimeout(2.0));
-  }
+    private void configureBindings() {
 
-  public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
-  }
+        m_driverController.a().whileTrue(
+            new SpinFlywheelCommand(m_flywheel, 0.5)
+        );
+
+        m_intake.setDefaultCommand(
+            new SetIntakeTargetSpeedCommand(
+                m_intake,
+                Constants.Intake.idleSpeed
+            )
+        );
+
+        new Trigger(
+            () -> Math.abs(m_driverController.getLeftY())
+                > Constants.Intake.joystickDeadband
+        ).whileTrue(
+            new SetIntakeTargetSpeedCommand(
+                m_intake,
+                () -> -m_driverController.getLeftY()
+            )
+        );
+
+        m_driverController.b().whileTrue(
+            m_intake.setSpeedStartEnd(-0.9)
+        );
+
+        m_driverController.x().onTrue(
+            m_intake.setSpeedInstant(0.25)
+        );
+    }
+
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+    }
 }
